@@ -12,8 +12,8 @@ pygame.joystick.init()
 
 joystick_count = pygame.joystick.get_count()
 print(joystick_count)
-stick = pygame.joystick.Joystick(0)
-stick.init()
+# stick = pygame.joystick.Joystick(0)
+# stick.init()
 
 from pynput.keyboard import Key, Controller
 keyboard = Controller()
@@ -24,6 +24,9 @@ while not done:
     try:
         for event in pygame.event.get():
             print(event)
+            if event.type == pygame.JOYDEVICEADDED:
+                stick = pygame.joystick.Joystick(0)
+                stick.init()
             if event.type == pygame.JOYBUTTONDOWN:
                 if event.button >= len(config['button']):
                     continue
