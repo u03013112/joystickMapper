@@ -41,10 +41,14 @@ while not done:
                     continue
                 if event.value < -0.3:
                     k = config['axis'][event.axis][0]
+                    k1 = config['axis'][event.axis][1]
                     keyboard.press(k)
+                    keyboard.release(k1)
                 if event.value > 0.3:
                     k = config['axis'][event.axis][1]
+                    k1 = config['axis'][event.axis][0]
                     keyboard.press(k)
+                    keyboard.release(k1)
                 if event.value == 0:
                     for k in config['axis'][event.axis]:
                         keyboard.release(k)
