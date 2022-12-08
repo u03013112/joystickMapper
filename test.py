@@ -17,6 +17,22 @@ print(joystick_count)
 
 from pynput.keyboard import Key, Controller
 keyboard = Controller()
+# 用于映射一些键盘不能按出来的按键
+def getKeyByStr(str):
+    keyMap = {
+        'up':Key.up,
+        'down':Key.down,
+        'left':Key.left,
+        'right':Key.right,
+
+    }
+
+    if str in keyMap.keys():
+        return keyMap[str]
+    
+    # 没找到就给个ese吧
+    return Key.esc
+
 
 # clock = pygame.time.Clock()
 done = False
@@ -55,7 +71,35 @@ while not done:
                 if event.value == 0:
                     for k in config['axis'][event.axis]:
                         keyboard.release(k)
+            if event.type == pygame.JOYHATMOTION:
+                x,y = event.value 
                 
+                if x == -1:
+                    kStr = config['hat'][0][0]
+                    k = getKeyByStr(kStr)
+                    keyboard.press(k)
+                if x == 1:
+                    kStr = config['hat'][0][1]
+                    k = getKeyByStr(kStr)
+                    keyboard.press(k)
+                if x == 0:
+                    for kStr in config['hat'][0]:
+                        k = getKeyByStr(kStr)
+                        keyboard.release(k)
+                
+                if y == -1:
+                    kStr = config['hat'][1][0]
+                    k = getKeyByStr(kStr)
+                    keyboard.press(k)
+                if y == 1:
+                    kStr = config['hat'][1][1]
+                    k = getKeyByStr(kStr)
+                    keyboard.press(k)
+                if y == 0:
+                    for kStr in config['hat'][1]:
+                        k = getKeyByStr(kStr)
+                        keyboard.release(k)
+
                 
     except KeyboardInterrupt:
         done = True
